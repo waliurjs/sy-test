@@ -49,7 +49,10 @@ const TodoRow = ({ todo, toggleTodo, editTodo, deleteTodo }) => {
 };
 
 TodoRow.propTypes = {
-  todo: PropTypes.instanceOf(Todo),
+  todo: PropTypes.instanceOf(Todo).isRequired,
+  toggleTodo: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
 };
 
 const isSameTodo = (prev, next) => prev.todo === next.todo;
