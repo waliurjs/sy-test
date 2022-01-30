@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useCallback, useMemo } from 'react';
 import { ADD, TOGGLE, EDIT, DELETE } from './actionTypes';
 import todoReducer from './todoReducer';
 import useTodoStorage from './useTodoStorage';
@@ -9,32 +9,50 @@ const useTodos = () => {
 
   useEffect(() => updateStorage(todos), [todos]);
 
-  const todoDispatch = (type, payload) => {
-    dispatch({ type, payload });
-  };
+  const todoDispatch = useCallback(
+    (type, payload) => {
+      dispatch({ type, payload });
+    },
+    [dispatch]
+  );
 
-  const addTodo = title => {
-    todoDispatch(ADD, { title });
-  };
+  const addTodo = useCallback(
+    title => {
+      todoDispatch(ADD, { title });
+    },
+    [todoDispatch]
+  );
 
-  const toggleTodo = id => {
-    todoDispatch(TOGGLE, { id });
-  };
+  const toggleTodo = useCallback(
+    id => {
+      todoDispatch(TOGGLE, { id });
+    },
+    [todoDispatch]
+  );
 
-  const editTodo = (id, newTitle) => {
-    todoDispatch(EDIT, { id, newTitle });
-  };
+  const editTodo = useCallback(
+    (id, newTitle) => {
+      todoDispatch(EDIT, { id, newTitle });
+    },
+    [todoDispatch]
+  );
 
-  const deleteTodo = id => {
-    todoDispatch(DELETE, { id });
-  };
+  const deleteTodo = useCallback(
+    id => {
+      todoDispatch(DELETE, { id });
+    },
+    [todoDispatch]
+  );
 
-  const actions = {
-    addTodo,
-    toggleTodo,
-    editTodo,
-    deleteTodo,
-  };
+  const actions = useMemo(
+    () => ({
+      addTodo,
+      toggleTodo,
+      editTodo,
+      deleteTodo,
+    }),
+    [addTodo, toggleTodo, editTodo, deleteTodo]
+  );
 
   return [todos, actions];
 };

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Center, Heading } from '@chakra-ui/react';
 
 const AppHeading = () => {
@@ -10,4 +11,4 @@ const AppHeading = () => {
   );
 };
 
-export default AppHeading;
+export default memo(AppHeading);

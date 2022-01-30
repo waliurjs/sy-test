@@ -1,4 +1,5 @@
-import formatDate from '../../util/formatDate';
+import formatDate from '../util/formatDate';
+
 class Todo {
   constructor(todo) {
     const time = new Date();

@@ -1,10 +1,10 @@
 import { ADD, TOGGLE, EDIT, DELETE } from './actionTypes';
-import Todo from './Todo';
+import { Todo } from '../../entities';
 import todoSorter from '../../util/todoSorter';
 
 const todoReducer = (state, action) => {
   const payload = action.payload;
-  let nextState = [...state];
+  let nextState;
 
   switch (action.type) {
     case ADD:
@@ -12,30 +12,26 @@ const todoReducer = (state, action) => {
       break;
     case TOGGLE:
       nextState = state.map(todo => {
-        if (todo.id === payload.id) {
-          todo.isChecked = !todo.isChecked;
-        }
-        return todo;
+        if (todo.id !== payload.id) return todo;
+        return new Todo({ ...todo, isChecked: !todo.isChecked });
       });
       break;
     case EDIT:
       nextState = state.map(todo => {
-        if (todo.id === payload.id) {
-          todo.title = payload.newTitle;
-        }
-        return todo;
+        if (todo.id !== payload.id) return todo;
+        return new Todo({ ...todo, title: payload.newTitle });
       });
       break;
     case DELETE:
-      nextState = state.filter(todo => {
-        if (todo.id !== payload.id) return todo;
-      });
+      nextState = state.filter(todo => todo.id !== payload.id);
       break;
   }
 
-  nextState.sort(todoSorter);
-  console.log('> REDUCER', action, nextState);
-  return nextState;
+  if (nextState) {
+    return nextState.sort(todoSorter);
+  }
+
+  return state;
 };
 
 export default todoReducer;

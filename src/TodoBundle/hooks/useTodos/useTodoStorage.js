@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import LocalStorage from '../../util/LocalStorage';
 import { TODO_STORAGE_KEY } from './constants';
-import Todo from './Todo';
+import { Todo } from '../../entities';
 
 const storage = new LocalStorage(TODO_STORAGE_KEY, { initialValue: [] });
 
